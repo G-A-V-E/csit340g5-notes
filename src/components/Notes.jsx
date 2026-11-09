@@ -15,13 +15,11 @@ function Notes() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  // Step 5: Add note on submit handler
   const handleAddNote = (e) => {
     e.preventDefault()
     const trimmedTitle = formData.title.trim()
     const trimmedBody = formData.body.trim()
 
-    // Do nothing if either box is empty or only has spaces
     if (!trimmedTitle || !trimmedBody) return
 
     const newNote = {
@@ -32,6 +30,11 @@ function Notes() {
 
     setNotes([...notes, newNote])
     setFormData({ title: '', body: '' })
+  }
+
+  // Step 6: Delete a note handler
+  const handleDeleteNote = (id) => {
+    setNotes(notes.filter(note => note.id !== id))
   }
 
   return (
@@ -50,8 +53,7 @@ function Notes() {
               className="h-[52px] w-full border border-[#e6e6e6] px-4 text-lg outline-none placeholder:text-black/40 placeholder:italic focus:border-[#cf7d7d]"
             />
           </div>
-            
-          {/* Step 5: Attach onSubmit handler */}
+          
           <form onSubmit={handleAddNote} className="grid gap-3">
             <p className="text-[13px] font-normal tracking-wide text-[#949494]">NEW NOTE</p>
             <input
@@ -90,8 +92,10 @@ function Notes() {
                 title={note.title}
                 body={note.body}
               />
+              {/* Step 6: Attach onClick delete handler */}
               <button
                 type="button"
+                onClick={() => handleDeleteNote(note.id)}
                 className="absolute top-4 right-5 cursor-pointer text-[26px] leading-none text-[#949494] hover:text-[#c18585]"
               >
                 ×
