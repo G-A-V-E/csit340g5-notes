@@ -8,12 +8,30 @@ function Notes() {
     { id: 2, title: 'Prepare for the quiz', body: 'Practice writing one handler for many inputs.' }
   ])
 
-  // Step 4: Add form state and shared change handler
   const [formData, setFormData] = useState({ title: '', body: '' })
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  // Step 5: Add note on submit handler
+  const handleAddNote = (e) => {
+    e.preventDefault()
+    const trimmedTitle = formData.title.trim()
+    const trimmedBody = formData.body.trim()
+
+    // Do nothing if either box is empty or only has spaces
+    if (!trimmedTitle || !trimmedBody) return
+
+    const newNote = {
+      id: Date.now(),
+      title: trimmedTitle,
+      body: trimmedBody
+    }
+
+    setNotes([...notes, newNote])
+    setFormData({ title: '', body: '' })
   }
 
   return (
@@ -33,8 +51,8 @@ function Notes() {
             />
           </div>
             
-          {/* Step 4: Bind value and onChange to form inputs */}
-          <form className="grid gap-3">
+          {/* Step 5: Attach onSubmit handler */}
+          <form onSubmit={handleAddNote} className="grid gap-3">
             <p className="text-[13px] font-normal tracking-wide text-[#949494]">NEW NOTE</p>
             <input
               name="title"
@@ -62,6 +80,7 @@ function Notes() {
         <Info name="Gave" />
       </aside>
 
+      {/* Main Content Area */}
       <section className="px-12 py-11">
         <h2 className="mb-6 text-3xl">All notes</h2>
         <ul className="grid grid-cols-3 items-start gap-5">
