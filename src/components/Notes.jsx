@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import NoteCard from './NoteCard.jsx'
 import Info from './Info.jsx'
- 
+
 function Notes() {
   const [notes, setNotes] = useState([
     { id: 1, title: 'Review map and filter', body: 'Redo the TodoMVC steps without looking at the guide.' },
@@ -32,20 +32,18 @@ function Notes() {
     setFormData({ title: '', body: '' })
   }
 
-  // Step 6: Delete a note handler
   const handleDeleteNote = (id) => {
     setNotes(notes.filter(note => note.id !== id))
   }
 
   return (
     <div className="grid min-h-screen grid-cols-[420px_1fr]">
-      {/* Sidebar */}
       <aside className="sticky top-0 flex h-screen flex-col justify-between bg-white px-8 py-9 shadow-[0_2px_4px_0_rgba(0,0,0,0.2),0_25px_50px_0_rgba(0,0,0,0.1)]">
         <div className="flex flex-col gap-5">
           <h1 className="text-[72px] leading-none font-extralight text-[#b83f45]">
             notes
           </h1>
-     
+
           <div>
             <p className="mb-2 text-[13px] font-normal tracking-wide text-[#949494]">SEARCH</p>
             <input
@@ -82,7 +80,6 @@ function Notes() {
         <Info name="Gave" />
       </aside>
 
-      {/* Main Content Area */}
       <section className="px-12 py-11">
         <h2 className="mb-6 text-3xl">All notes</h2>
         <ul className="grid grid-cols-3 items-start gap-5">
@@ -92,7 +89,6 @@ function Notes() {
                 title={note.title}
                 body={note.body}
               />
-              {/* Step 6: Attach onClick delete handler */}
               <button
                 type="button"
                 onClick={() => handleDeleteNote(note.id)}
@@ -103,9 +99,13 @@ function Notes() {
             </li>
           ))}
         </ul>
+
+        {notes.length === 0 && (
+          <p className="mt-6 text-lg text-[#949494]">No notes found</p>
+        )}
       </section>
     </div>
   )
 }
- 
+
 export default Notes
